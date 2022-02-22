@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -60,21 +61,22 @@ public class PlayerMovement : MonoBehaviour
         //check weather the tag of trigger is "Finish" or not
         if (other.tag == "Finish")
         {
-            if(SceneManager.GetActiveScene().name == "LevelOne")
-            {
-                Debug.Log("finished");
-                SceneManager.LoadScene("LevelTwo");
-            }
-            else
-            {
-                Debug.Log("finished game");
-            }
+            //if(SceneManager.GetActiveScene().name == "LevelOne")
+            //{
+            //    Debug.Log("finished");
+            //    SceneManager.LoadScene("LevelTwo");
+            //}
+            //else
+            //{
+            //    Debug.Log("finished game");
+            //}
             //SceneManager.LoadScene("LevelTwo");
             //give "finished" message in console
             //Debug.Log("finished");
             //to do:
             //create new level with name "LevelTwo"
             //add progression system to next level ie "LevelTwo"
+            SceneManager.LoadScene("GeneratorScene");
         }
     }
 }

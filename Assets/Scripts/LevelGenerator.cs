@@ -1,23 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class LevelGenerator : MonoBehaviour
 {
     public Transform[] possibleLocations;
+    //public Button resetButton, clearButton;
+    //public bool isClicked;
     //public Transform playerPositionData;
     //private Vector3 positionData, previousPosition;
     public GameObject exitObject, playerObject, obstacleObject;
     private List<Vector3> occupiedPositions = new List<Vector3>();  //declare a list of Vector3 to store occupied locations
+    //private NavMeshAgent
     // Start is called before the first frame update
     void Start()
     {
+        //resetButton.onClick.AddListener(OnButtonReset);
         occupiedPositions.Clear(); //clear garbage vals in occupiedPositions list if any
+        SpawnObject(possibleLocations, exitObject, 1);
+        SpawnObject(possibleLocations, playerObject, 1);
+        SpawnObject(possibleLocations, obstacleObject, 3);
     }
 
     // Update is called once per frame
     void Update()
     {
+        //resetButton.onClick.AddListener(OnButtonReset);
+        /*if (isClicked == true)
+        {
+            SpawnObject(possibleLocations, exitObject, 1);
+            SpawnObject(possibleLocations, playerObject, 1);
+            SpawnObject(possibleLocations, obstacleObject, 3);
+        }*/
         //if c is pressed delete objects
         if (Input.GetKeyDown("c"))
         {
@@ -113,5 +129,10 @@ public class LevelGenerator : MonoBehaviour
     //    Debug.Log("Randob position is " + positionData);
     //instantiate the "Exit" prefab
     //    Instantiate(exitObject, positionData, Quaternion.identity);
-    
+    public void OnButtonReset()
+    {
+        SpawnObject(possibleLocations, exitObject, 1);
+        SpawnObject(possibleLocations, playerObject, 1);
+        SpawnObject(possibleLocations, obstacleObject, 3);
+    }
 }
