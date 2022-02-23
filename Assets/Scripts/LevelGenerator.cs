@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class LevelGenerator : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class LevelGenerator : MonoBehaviour
     //private Vector3 positionData, previousPosition;
     public GameObject exitObject, playerObject, obstacleObject;
     private List<Vector3> occupiedPositions = new List<Vector3>();  //declare a list of Vector3 to store occupied locations
-    //private NavMeshAgent
+    public NavMeshSurface surface;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,7 @@ public class LevelGenerator : MonoBehaviour
         SpawnObject(possibleLocations, exitObject, 1);
         SpawnObject(possibleLocations, playerObject, 1);
         SpawnObject(possibleLocations, obstacleObject, 3);
+        surface.BuildNavMesh();
     }
 
     // Update is called once per frame
@@ -72,6 +74,7 @@ public class LevelGenerator : MonoBehaviour
             SpawnObject(possibleLocations, playerObject, 1);
             SpawnObject(possibleLocations, obstacleObject, 3);
         }
+
     }
     
     //function to spawn object, takes list of possible locations, object to be spawned & no. of objects as arguments
@@ -131,8 +134,18 @@ public class LevelGenerator : MonoBehaviour
     //    Instantiate(exitObject, positionData, Quaternion.identity);
     public void OnButtonReset()
     {
+        //SceneManager.LoadScene("GeneratorScene");
+        Debug.Log("button pressed");
         SpawnObject(possibleLocations, exitObject, 1);
         SpawnObject(possibleLocations, playerObject, 1);
         SpawnObject(possibleLocations, obstacleObject, 3);
+    }
+    public void OnButtonClear()
+    {
+        //SceneManager.LoadScene("GeneratorScene");
+        Destroy(GameObject.Find("Exit(Clone)"));
+        Destroy(GameObject.Find("Player(Clone)"));
+        Destroy(GameObject.Find("Obstacle(Clone)"));
+        occupiedPositions.Clear();
     }
 }

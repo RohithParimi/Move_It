@@ -10,9 +10,10 @@ public class PlayerMovement : MonoBehaviour
     //author:   alamurit
     //date: 18/01/2022
     //this scripts enables movement of the player
-    private Transform playerTransform;
+    private Transform playerTransform, exitTransform;
     private Text movesNumber;
     private int moves = 0;
+    private NavMeshAgent navMeshAgent;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
         //get player's "Transform" component and assign it to "playerTransform" variable
         playerTransform = gameObject.GetComponent<Transform>();
         movesNumber = GameObject.Find("Moves_No").GetComponent<Text>();
+        navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
+        exitTransform = GameObject.Find("Exit(Clone)").GetComponent<Transform>();
     }
 
     // Update is called once per frame
@@ -54,6 +57,9 @@ public class PlayerMovement : MonoBehaviour
             playerTransform.position += new Vector3(0, 0, 2f);
             moves += 1;
         }
+        navMeshAgent.speed = 1f;  //change this to modify player movement speed
+        //set destination for navMeshAgent
+        navMeshAgent.SetDestination(exitTransform.position);
     }
     //when player overlaps a trigger
     private void OnTriggerEnter(Collider other)
