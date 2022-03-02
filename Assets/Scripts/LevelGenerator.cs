@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.AI;
-using UnityEngine.SceneManagement;
+using System.IO;
 
 public class LevelGenerator : MonoBehaviour
 {
@@ -13,9 +12,23 @@ public class LevelGenerator : MonoBehaviour
     //public Transform playerPositionData;
     //private Vector3 positionData, previousPosition;
     public GameObject exitObject, playerObject, obstacleObject;
+    public List<GameObject> spawnedObjects = new List<GameObject>();
+    //public GameObject[] spawnedObjects;
     private List<Vector3> occupiedPositions = new List<Vector3>();  //declare a list of Vector3 to store occupied locations
+    private List<List<Vector3>> allPositions = new List<List<Vector3>>();
     public NavMeshSurface surface;
+    private float timeConsumed = 1200f;
+    public int epoch = 0;
     // Start is called before the first frame update
+    public class levelData
+    {
+        public GameObject objectName;
+        public Vector3 objectPosition;
+        public Vector3 ObjectRotation;
+    }
+    levelData levelDataVar = new levelData();
+    List<levelData> levelDataList = new List<levelData>();
+    List<List<levelData>> levelGenerationData = new List<List<levelData>>();
     void Start()
     {
         //resetButton.onClick.AddListener(OnButtonReset);
@@ -23,12 +36,22 @@ public class LevelGenerator : MonoBehaviour
         SpawnObject(possibleLocations, exitObject, 1);
         SpawnObject(possibleLocations, playerObject, 1);
         SpawnObject(possibleLocations, obstacleObject, 3);
+        spawnedObjects.Add(GameObject.FindGameObjectWithTag("Player"));
+        spawnedObjects.Add(GameObject.FindGameObjectWithTag("Finish"));
+        foreach (GameObject item in GameObject.FindGameObjectsWithTag("Obstacle"))
+        {
+            spawnedObjects.Add(item);
+        }
+        allPositions.Add(occupiedPositions);
         surface.BuildNavMesh();
+        CreateTextFile();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log("level data list is " + levelGenerationData[0].);
+
         //resetButton.onClick.AddListener(OnButtonReset);
         /*if (isClicked == true)
         {
@@ -78,7 +101,7 @@ public class LevelGenerator : MonoBehaviour
     }
     
     //function to spawn object, takes list of possible locations, object to be spawned & no. of objects as arguments
-    void SpawnObject(Transform[] possiblePositionList, GameObject objectToBeSpawned = null, int numberOfObjectsToBeSpawned = 1)
+    public void SpawnObject(Transform[] possiblePositionList, GameObject objectToBeSpawned = null, int numberOfObjectsToBeSpawned = 1)
     {
         Vector3 spawnPosition;  //define new local vector3 var
 
@@ -89,16 +112,22 @@ public class LevelGenerator : MonoBehaviour
             {
                 Instantiate(objectToBeSpawned, spawnPosition, Quaternion.identity);
                 occupiedPositions.Add(spawnPosition);
+                levelDataVar.objectName = objectToBeSpawned;
+                levelDataVar.objectPosition = spawnPosition;
+                //levelDataVar.ObjectRotation = Vector3(0, 0, 0);
+                levelDataList.Add(levelDataVar);
             }
         }
+        
+        levelGenerationData.Add(levelDataList);
     }
     //function to clear mention objects from level
-    void ClearPreviouslySpawnedObjects()
+    public void ClearPreviouslySpawnedObjects()
     {
         //while (GameObject.Find("Exit(Clone)"))
         //{
         //Destroy(GameObject.Find("Exit(Clone)"));
-        
+
         //}
         /*if (spawnedObjects.Count > 0)
         {
@@ -115,9 +144,17 @@ public class LevelGenerator : MonoBehaviour
             }
             
         }*/
-        Destroy(GameObject.Find("Exit(Clone)"));
-        Destroy(GameObject.Find("Player(Clone)"));
-        Destroy(GameObject.Find("Obstacle(Clone)"));
+        //spawnedObjects = (GameObject.FindGameObjectsWithTag("Player"));
+        //spawnedObjects = GameObject.FindGameObjectsWithTag("Finish");
+        //spawnedObjects = GameObject.FindGameObjectsWithTag("Obstacle");
+        
+        foreach(GameObject obj in spawnedObjects)
+        {
+            Destroy(obj);
+        }
+        //Destroy(GameObject.Find("Exit(Clone)"));
+        //Destroy(GameObject.Find("Player(Clone)"));
+        //Destroy(GameObject.Find("Obstacle(Clone)"));
         occupiedPositions.Clear();
     }
     //    if (GameObject.Find("Exit"))
@@ -147,5 +184,42 @@ public class LevelGenerator : MonoBehaviour
         Destroy(GameObject.Find("Player(Clone)"));
         Destroy(GameObject.Find("Obstacle(Clone)"));
         occupiedPositions.Clear();
+    }
+    void CreateTextFile()
+    {
+        //path
+        Debug.Log("text file created");
+        Debug.Log(Application.dataPath.ToString());
+        string path = Application.dataPath + "GeneratedText.txt";
+        //create file
+        Debug.Log("Writing file");
+        /*File.WriteAllText("D:/Generated.txt", "File generated at ");
+        foreach (GameObject obj in spawnedObjects)
+        {
+            File.WriteAllText("D:/Generated.txt",obj.ToString() + obj.transform.position.ToString() + obj.transform.rotation.ToString());
+        }
+        if (!File.Exists(path))
+        {
+            Debug.Log("Writing file");
+            File.WriteAllText(path, "File generated at ");
+        }*/
+        //TextWriter tw = new StreamWriter
+        /*
+        foreach(List<levelData> l in levelGenerationData)
+        {
+            foreach(levelData lData in l)
+            {
+                File.AppendAllText(path, lData.objectName.ToString() + lData.objectPosition.ToString());
+            }
+        }*/
+        
+        using(StreamWriter sw = new StreamWriter("D:/Unity_Projects/Move_It/Move_It/Assets/Scripts/GeneratedData.txt", true))
+        {
+            sw.WriteLine("******new_level******");
+            foreach(GameObject obj in spawnedObjects)
+            {
+                sw.WriteLine(obj.ToString() + " " + obj.transform.position + " " + obj.transform.rotation);
+            }
+        }
     }
 }
