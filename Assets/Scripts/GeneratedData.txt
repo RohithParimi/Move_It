@@ -1,0 +1,13 @@
+Player(Clone) (UnityEngine.GameObject) (0.0, 1.0, -2.0) (0.0, 0.0, 0.0, 1.0)
+Exit(Clone) (UnityEngine.GameObject) (-2.0, 1.0, 2.0) (0.0, 0.0, 0.0, 1.0)
+Obstacle(Clone) (UnityEngine.GameObject) (2.0, 1.0, 0.0) (0.0, 0.0, 0.0, 1.0)
+Obstacle(Clone) (UnityEngine.GameObject) (2.0, 1.0, -2.0) (0.0, 0.0, 0.0, 1.0)
+******new_level******
+Player(Clone) (UnityEngine.GameObject) (-2.0, 1.0, -2.0) (0.0, 0.0, 0.0, 1.0)
+Exit(Clone) (UnityEngine.GameObject) (2.0, 1.0, 0.0) (0.0, 0.0, 0.0, 1.0)
+Obstacle(Clone) (UnityEngine.GameObject) (0.0, 1.0, -2.0) (0.0, 0.0, 0.0, 1.0)
+Obstacle(Clone) (UnityEngine.GameObject) (0.0, 1.0, 2.0) (0.0, 0.0, 0.0, 1.0)
+******new_level******
+Player(Clone) (UnityEngine.GameObject) (0.0, 1.0, -2.0) (0.0, 0.0, 0.0, 1.0)
+Exit(Clone) (UnityEngine.GameObject) (-2.0, 1.0, 0.0) (0.0, 0.0, 0.0, 1.0)
+******new_level******

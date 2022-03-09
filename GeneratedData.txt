@@ -1,0 +1,4 @@
+Player(Clone) (UnityEngine.GameObject)
+Exit(Clone) (UnityEngine.GameObject)
+Obstacle(Clone) (UnityEngine.GameObject)
+Obstacle(Clone) (UnityEngine.GameObject)

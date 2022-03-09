@@ -14,15 +14,17 @@ public class PlayerMovement : MonoBehaviour
     private Text movesNumber;
     private int moves = 0;
     private NavMeshAgent navMeshAgent;
+    private LevelGenerator levelGenerator;
     // Start is called before the first frame update
     void Start()
     {
         //Debug.Log("game has started!");
         //get player's "Transform" component and assign it to "playerTransform" variable
-        playerTransform = gameObject.GetComponent<Transform>();
+        playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         movesNumber = GameObject.Find("Moves_No").GetComponent<Text>();
         navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
         exitTransform = GameObject.Find("Exit(Clone)").GetComponent<Transform>();
+        levelGenerator = GameObject.Find("Floor").GetComponent<LevelGenerator>();
     }
 
     // Update is called once per frame
